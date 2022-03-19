@@ -14,3 +14,6 @@
 ### yarn sequelize-cli db:create
 ## Para rodar o migrate e criar as entidades anteriormente geradas pelo "sequelize-cli model:generate":
 ### yarn sequelize-cli db:migrate
+## Criar um migration para editar uma tabela
+###  yarn sequelize-cli migration:create --name usuario_add_coluna_endereco_id
+### vide exempl do arquivo migration usuario_add_coluna_endereco_id

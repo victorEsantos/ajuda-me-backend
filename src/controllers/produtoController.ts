@@ -12,6 +12,14 @@ const get = async (req: Request, res: Response) => {
 
 }
 
+const getById = async (req: Request, res: Response) => {
+
+    const produto = await Produto.findByPk(req.params.id)
+
+    res.json({ produto })
+
+}
+
 const post = async (req: Request, res: Response) => {
 
     const produto = req.body
@@ -44,4 +52,4 @@ const put = async (req: Request, res: Response) => {
 
 
 
-export default {get, post, put}
+export default {get, post, put, getById}
