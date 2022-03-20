@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-const Produto = require("../../models").Produto
+import exp from 'express';
 
-const exp = require('express')
+const Produto = require("../../models").Produto
 const router = exp.Router();
 
 router.get('/', async (req: Request, res: Response) => {

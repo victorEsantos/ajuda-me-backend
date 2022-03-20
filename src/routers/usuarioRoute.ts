@@ -1,4 +1,4 @@
-const exp = require('express')
+import exp from 'express';
 const router = exp.Router();
 
 import usuarioController from '../controllers/usuarioController';
