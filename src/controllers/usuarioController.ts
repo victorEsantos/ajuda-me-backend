@@ -1,4 +1,4 @@
-import {Request, Response } from "express";
+import { Request, Response } from "express";
 
 const Usuario = require("../../models").Usuario
 const Endereco = require("../../models").Endereco
@@ -16,7 +16,7 @@ const get = async (req: Request, res: Response) => {
 const getById = async (req: Request, res: Response) => {
 
     const usuario = await Usuario.findByPk(req.params.id, {
-        include:[{
+        include: [{
             model: Endereco,
             attributes: ['cidade', 'rua', 'numero']
 
@@ -27,12 +27,20 @@ const getById = async (req: Request, res: Response) => {
 
 }
 
-const post = async (req: Request, res: Response) => {
+const postRegister = async (req: Request, res: Response) => {
 
-    const Usuario = req.body
+    const usuario = req.body;
+    console.log("agora aqui")
+    console.log(req.body);
 
-    if (Usuario && Usuario.nome) {
-        const p = await Usuario.create({ nome: Usuario.nome, quantidade: Usuario.quantidade ?? 0 })
+    if (usuario && usuario.nome) {
+        const p = await Usuario.create(
+            {
+                nome: usuario.nome,
+                email: usuario.email,
+                user: usuario.user,
+                senha: usuario.senha
+            })
         res.json(p.id)
 
     } else {
@@ -59,4 +67,4 @@ const put = async (req: Request, res: Response) => {
 
 
 
-export default {get, getById, post, put}
+export default { get, getById, postRegister, put }
