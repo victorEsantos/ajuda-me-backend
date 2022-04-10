@@ -3,7 +3,9 @@ import indexRoute from './routers/index'
 import produtoRouter from './routers/produtoRoute'
 import usuarioRouter from './routers/usuarioRoute'
 import enderecoRouter from './routers/enderecoRoute'
-import { Sequelize } from "sequelize";
+import { Sequelize } from "sequelize"
+import cors from 'cors'
+
 
 const sequelize = new Sequelize('postgres://postgres:pac123@localhost:5432/mydb')
 
@@ -14,9 +16,12 @@ sequelize.authenticate().then(() => {
 })
 
 const app = express()
+const port = 3333;
 
-app.listen(3333, () => {
-    console.log('Server running')
+app.use(cors())
+
+app.listen(port, () => {
+    console.log('Server running on port: ' + port)
 })
 
 

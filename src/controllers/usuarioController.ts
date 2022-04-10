@@ -6,7 +6,10 @@ const Endereco = require("../../models").Endereco
 const get = async (req: Request, res: Response) => {
 
     const Usuarios = await Usuario.findAll({
-        order: [['nome', 'ASC']]
+        order: [['id', 'ASC']]
+        // limit: 1,
+        // offset: 1
+    
     })
 
     res.json({ Usuarios })
