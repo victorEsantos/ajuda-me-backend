@@ -12,7 +12,7 @@ const get = async (req: Request, res: Response) => {
     
     })
 
-    res.json({ Usuarios })
+    res.json(Usuarios)
 
 }
 
@@ -54,14 +54,17 @@ const postRegister = async (req: Request, res: Response) => {
 
 const put = async (req: Request, res: Response) => {
 
-    const producto = req.body
+    const usuario = req.body;
+    const id = req.params.id;
 
     try {
-        await Usuario.update({ quantidade: producto.quantidade }, {
+        await Usuario.update(usuario , {
             where: {
-                id: producto.id
+                id: id
             }
         })
+
+        res.json("ok")
     } catch (e) {
         res.status(500).json({ mensagem: 'Erro inesperado ao atualizar Usuario: ', e })
     }

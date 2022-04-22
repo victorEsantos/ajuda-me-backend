@@ -9,16 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nome: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING
       },
       user: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       senha: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       dataNascimento: {
         type: Sequelize.DATE
@@ -30,16 +33,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       genero: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM("MASCULINO", "FEMININO", "TRANS", "OUTRO")
       },
       corRaca: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM("AMARELA", "BRANCA", "INDIGENA", "PARDA", "PRETA")
       },
       estadoOndeAtravessouFronteira: {
         type: Sequelize.STRING
       },
       viaDeEntrada: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM("TERRESTRE", "AEREO", "MARITIMO"),
       },
       hasFamiliaresNoBrasil: {
         type: Sequelize.STRING
@@ -93,7 +96,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       situacaoMigratoria: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM("REGULAR", "IRREGULAR", "APATRIDA", "AUTORIZACAO_RESIDENCIA", "REFUGIADO", "SOLICITANTE_REFUGIO", "VISTO_HUMANITARIO")
       },
       observacao: {
         type: Sequelize.STRING
