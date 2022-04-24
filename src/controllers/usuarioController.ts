@@ -9,7 +9,7 @@ const get = async (req: Request, res: Response) => {
         order: [['id', 'ASC']]
         // limit: 1,
         // offset: 1
-    
+
     })
 
     res.json(Usuarios)
@@ -26,7 +26,7 @@ const getById = async (req: Request, res: Response) => {
         }]
     })
 
-    res.json({ usuario })
+    res.json(usuario)
 
 }
 
@@ -58,7 +58,7 @@ const put = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     try {
-        await Usuario.update(usuario , {
+        await Usuario.update(usuario, {
             where: {
                 id: id
             }
