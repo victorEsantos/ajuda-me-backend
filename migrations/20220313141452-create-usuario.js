@@ -45,7 +45,7 @@ module.exports = {
         type: Sequelize.ENUM("TERRESTRE", "AEREO", "MARITIMO"),
       },
       hasFamiliaresNoBrasil: {
-        type: Sequelize.STRING
+        type: Sequelize.BOOLEAN
       },
       telefone: {
         type: Sequelize.STRING

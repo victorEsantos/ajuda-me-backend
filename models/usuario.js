@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     corRaca: DataTypes.ENUM("AMARELA", "BRANCA", "INDIGENA", "PARDA", "PRETA"),
     estadoOndeAtravessouFronteira: DataTypes.STRING,
     viaDeEntrada: DataTypes.ENUM("TERRESTRE", "AEREO", "MARITIMO"),
-    hasFamiliaresNoBrasil: DataTypes.STRING,
+    hasFamiliaresNoBrasil: DataTypes.BOOLEAN,
     telefone: DataTypes.STRING,
     cpf: DataTypes.STRING,
     crnm: DataTypes.STRING,

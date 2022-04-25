@@ -21,7 +21,7 @@ const getById = async (req: Request, res: Response) => {
     const usuario = await Usuario.findByPk(req.params.id, {
         include: [{
             model: Endereco,
-            attributes: ['cidade', 'rua', 'numero']
+            attributes: ['cidade', 'rua', 'numero', 'estado', 'cep']
 
         }]
     })

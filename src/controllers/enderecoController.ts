@@ -45,7 +45,7 @@ const put = async (req: Request, res: Response) => {
     try {
         await Endereco.update({ estado: endereco.estado, cidade: endereco.cidade, rua: endereco.rua, numero: endereco.numero, cep: endereco.cep }, {
             where: {
-                id: endereco.id
+                id: req.params.id
             }
         })
     } catch (e) {
