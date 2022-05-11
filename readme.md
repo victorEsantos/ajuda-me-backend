@@ -1,3 +1,7 @@
+# Escopo Projeto
+Projeto para a secretaria de imigração da cidade de joinville, desenvolvido durante as aulas do curso de engenharia de software
+
+
 # Para iniciar a aplicação digite:
 ## yarn dev
 
