@@ -1,7 +1,13 @@
 import { Request, Response } from "express";
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
 
+const config = require("../../config/auth.config");
 const Usuario = require("../../models").Usuario
+const Papel = require("../../models").Papel
 const Endereco = require("../../models").Endereco
+const db = require("../../models");
+const Op = db.Sequelize.Op;
 
 const get = async (req: Request, res: Response) => {
 
@@ -30,6 +36,58 @@ const getById = async (req: Request, res: Response) => {
 
 }
 
+const signin = async (req: Request, res: Response) => {
+    
+    Usuario.findOne({
+      where: {
+        user: req.body.username
+      }
+    })
+      .then((user: any) => {
+
+        if (!user) {
+          return res.status(404).send({ message: "User Not found." });
+        }
+
+        console.log("senha usuario req: ", req.body.password)
+        var passwordIsValid = bcrypt.compareSync(
+          req.body.password,
+          user.senha
+        );
+
+        console.log("senha é valida: ",passwordIsValid)
+        if (!passwordIsValid) {
+          return res.status(401).send({
+            accessToken: null,
+            message: "Invalid Password!"
+          });
+        }
+        var token = jwt.sign({ id: user.id }, config.secret, {
+          expiresIn: 86400 // 24 hours
+        });
+
+        var authorities: string[] = [];
+        console.log('1')
+
+        console.log(user.getRoles())
+        user.getRoles().then((roles:any) => {
+          for (let i = 0; i < roles.length; i++) {
+            authorities.push("ROLE_" + roles[i].name.toUpperCase());
+          }
+          res.status(200).send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            roles: authorities,
+            accessToken: token
+          });
+        });
+      })
+      .catch((err: { message: any; }) => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
 const postRegister = async (req: Request, res: Response) => {
 
     const usuario = req.body;
@@ -42,8 +100,27 @@ const postRegister = async (req: Request, res: Response) => {
                 nome: usuario.nome,
                 email: usuario.email,
                 user: usuario.user,
-                senha: usuario.senha
-            })
+                senha: bcrypt.hashSync(usuario.senha, 8)
+            }).then((user: any) => {
+                if (req.body.roles) {
+                  Papel.findAll({
+                    where: {
+                      name: {
+                        [Op.or]: req.body.roles
+                      }
+                    }
+                  }).then((roles: any) => {
+                    user.setRoles(roles).then(() => {
+                      res.send({ message: "User was registered successfully!" });
+                    });
+                  });
+                } else {
+                  // user role = 1
+                  user.setRoles([1]).then(() => {
+                    res.send({ message: "User was registered successfully!" });
+                  });
+                }
+              })
         res.json(p.id)
 
     } else {
@@ -73,4 +150,4 @@ const put = async (req: Request, res: Response) => {
 
 
 
-export default { get, getById, postRegister, put }
+export default { get, getById, postRegister, put, signin }

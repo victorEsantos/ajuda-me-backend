@@ -11,15 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Papel.belongsTo(models.Usuario, {
-      //   foreignKey: 'papelId'
-      // })
+      Papel.belongsToMany(models.Usuario, {
+        through: "user_roles",
+        foreignKey: "papelId",
+        otherKey: "usuarioId"
+      });
     }
   }
   Papel.init({
     nome: DataTypes.STRING,
     descricao: DataTypes.STRING
   }, {
+    tableName: 'Papeis',
     sequelize,
     modelName: 'Papel',
   });

@@ -12,9 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      // Usuario.hasMany(models.Papel, {
-      //   foreignKey: 'papelId'
-      // })
+      Usuario.belongsToMany(models.Papel, {
+        through: "user_roles",
+        foreignKey: "usuarioId",
+        otherKey: "pepelId"
+      });
 
       Usuario.belongsTo(models.Endereco, {
         constraints: true,
@@ -30,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     user: DataTypes.STRING,
     senha: DataTypes.STRING,
     enderecoId: DataTypes.INTEGER,
+    papelId: DataTypes.INTEGER,
     dataNascimento: DataTypes.DATE,
     nacionalidade: DataTypes.STRING,
     cidadeNascimento: DataTypes.STRING,
