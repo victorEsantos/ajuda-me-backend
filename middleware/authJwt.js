@@ -37,24 +37,26 @@ isAdmin = (req, res, next) => {
 };
 
 isCurrentUserOrAdmin = (req, res, next) => {
+  let isAdmin = false;
   Usuario.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
+        console.log("Role --=-> ", roles[i]);
         if (roles[i].nome === "admin") {
+          console.log("tal de is adm", isAdmin);
+          isAdmin = true;
           next();
           return;
         }
       }
+
+      if (req.userId != req.params.id && !isAdmin) {
+        return res.status(401).send({
+          message: "Unauthorized!",
+        });
+      }
     });
   });
-
-  if(req.userId != req.params.id){
-    return res.status(401).send({
-      message: "Unauthorized!",
-    });
-  }
-
-  next();
 };
 
 isModerator = (req, res, next) => {
