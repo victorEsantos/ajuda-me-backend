@@ -11,7 +11,7 @@ router.post(
   [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted],
   usuarioController.postRegister
 );
-router.put("/:id", usuarioController.put);
+router.put("/:id",[authJwt.verifyToken, authJwt.isCurrentUserOrAdmin], usuarioController.put);
 
 router.post("/login", usuarioController.signin);
 

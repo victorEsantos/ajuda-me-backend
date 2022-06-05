@@ -1,12 +1,12 @@
-import exp from 'express';
+import exp from "express";
+const { authJwt } = require("../../middleware");
 const router = exp.Router();
 
-import enderecoController from '../controllers/enderecoController';
+import enderecoController from "../controllers/enderecoController";
 
+router.get("/", [authJwt.verifyToken], enderecoController.get);
+router.get("/:id", [authJwt.verifyToken], enderecoController.getById);
+router.post("/", [authJwt.verifyToken], enderecoController.post);
+router.put("/:id", [authJwt.verifyToken], enderecoController.put);
 
-router.get("/", enderecoController.get)
-router.get("/:id", enderecoController.getById)
-router.post("/", enderecoController.post)
-router.put("/:id", enderecoController.put)
-
-export default router
+export default router;

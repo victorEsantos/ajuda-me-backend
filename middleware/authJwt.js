@@ -41,7 +41,6 @@ isCurrentUserOrAdmin = (req, res, next) => {
   Usuario.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
-        console.log("Role --=-> ", roles[i]);
         if (roles[i].nome === "admin") {
           console.log("tal de is adm", isAdmin);
           isAdmin = true;
@@ -49,12 +48,13 @@ isCurrentUserOrAdmin = (req, res, next) => {
           return;
         }
       }
-
+      
       if (req.userId != req.params.id && !isAdmin) {
         return res.status(401).send({
           message: "Unauthorized!",
         });
       }
+      next();
     });
   });
 };
