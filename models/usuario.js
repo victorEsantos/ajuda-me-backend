@@ -12,9 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      // Usuario.hasMany(models.Papel, {
-      //   foreignKey: 'papelId'
-      // })
+      Usuario.belongsToMany(models.Role, {
+        through: "user_roles",
+        as: "roles",
+        foreignKey: "usuarioId",
+        otherKey: "roleId"
+      });
 
       Usuario.belongsTo(models.Endereco, {
         constraints: true,
@@ -58,6 +61,8 @@ module.exports = (sequelize, DataTypes) => {
     observacao: DataTypes.STRING,
   }, {
     sequelize,
+    freezeTableName: true,
+    tableName: 'Usuarios',
     modelName: 'Usuario',
   });
   return Usuario;
