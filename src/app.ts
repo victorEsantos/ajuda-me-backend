@@ -6,7 +6,7 @@ import enderecoRouter from './routers/enderecoRoute'
 import { Sequelize } from "sequelize"
 import cors from "cors"
 
-const Papel = require("../models").Papel
+const Role = require("../models").Role
 const sequelize = new Sequelize('postgres://postgres:pac123@localhost:5432/mydb')
 
 
@@ -24,19 +24,19 @@ sequelize.authenticate().then(() => {
 async function initial() {
 
     try{
-        await Papel.create({
+        await Role.create({
             id: 1,
             nome: "user",
             descricao: "usuario comum"
           });
          
-          await Papel.create({
+          await Role.create({
             id: 2,
             nome: "moderator",
             descricao: "usuario moderador"
           });
          
-          await Papel.create({
+          await Role.create({
             id: 3,
             nome: "admin",
             descricao: "usuario administrador"

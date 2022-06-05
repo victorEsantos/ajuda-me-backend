@@ -4,7 +4,7 @@ var bcrypt = require("bcryptjs");
 
 const config = require("../../config/auth.config");
 const Usuario = require("../../models").Usuario
-const Papel = require("../../models").Papel
+const Role = require("../../models").Role
 const Endereco = require("../../models").Endereco
 const db = require("../../models");
 const Op = db.Sequelize.Op;
@@ -63,16 +63,17 @@ const signin = async (req: Request, res: Response) => {
           });
         }
         var token = jwt.sign({ id: user.id }, config.secret, {
-          expiresIn: 86400 // 24 hours
+          expiresIn: 8641800000 // 5 hours
         });
 
         var authorities: string[] = [];
         console.log('1')
 
+        console.log("haha==>>", user)
         console.log(user.getRoles())
         user.getRoles().then((roles:any) => {
           for (let i = 0; i < roles.length; i++) {
-            authorities.push("ROLE_" + roles[i].name.toUpperCase());
+            authorities.push("ROLE_" + roles[i].nome.toUpperCase());
           }
           res.status(200).send({
             id: user.id,
@@ -92,36 +93,25 @@ const postRegister = async (req: Request, res: Response) => {
 
     const usuario = req.body;
     console.log("agora aqui")
-    console.log(req.body);
+    console.log(usuario);
 
     if (usuario && usuario.nome) {
-        const p = await Usuario.create(
+        await Usuario.create(
             {
                 nome: usuario.nome,
                 email: usuario.email,
                 user: usuario.user,
                 senha: bcrypt.hashSync(usuario.senha, 8)
             }).then((user: any) => {
-                if (req.body.roles) {
-                  Papel.findAll({
-                    where: {
-                      name: {
-                        [Op.or]: req.body.roles
-                      }
-                    }
-                  }).then((roles: any) => {
-                    user.setRoles(roles).then(() => {
-                      res.send({ message: "User was registered successfully!" });
-                    });
-                  });
-                } else {
+                
+                
                   // user role = 1
                   user.setRoles([1]).then(() => {
-                    res.send({ message: "User was registered successfully!" });
+                    res.json({ message: "User was registered successfully! default" });
                   });
-                }
+
               })
-        res.json(p.id)
+
 
     } else {
         res.status(400).json({ mensagem: 'Usuario inválido' })

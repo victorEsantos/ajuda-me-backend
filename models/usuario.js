@@ -12,10 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      Usuario.belongsToMany(models.Papel, {
+      Usuario.belongsToMany(models.Role, {
         through: "user_roles",
+        as: "roles",
         foreignKey: "usuarioId",
-        otherKey: "pepelId"
+        otherKey: "roleId"
       });
 
       Usuario.belongsTo(models.Endereco, {
@@ -32,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     user: DataTypes.STRING,
     senha: DataTypes.STRING,
     enderecoId: DataTypes.INTEGER,
-    papelId: DataTypes.INTEGER,
     dataNascimento: DataTypes.DATE,
     nacionalidade: DataTypes.STRING,
     cidadeNascimento: DataTypes.STRING,
@@ -61,6 +61,8 @@ module.exports = (sequelize, DataTypes) => {
     observacao: DataTypes.STRING,
   }, {
     sequelize,
+    freezeTableName: true,
+    tableName: 'Usuarios',
     modelName: 'Usuario',
   });
   return Usuario;

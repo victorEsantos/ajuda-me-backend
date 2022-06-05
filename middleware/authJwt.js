@@ -23,7 +23,7 @@ isAdmin = (req, res, next) => {
   Usuario.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "admin") {
+        if (roles[i].nome === "admin") {
           next();
           return;
         }
@@ -35,11 +35,33 @@ isAdmin = (req, res, next) => {
     });
   });
 };
+
+isCurrentUserOrAdmin = (req, res, next) => {
+  Usuario.findByPk(req.userId).then((user) => {
+    user.getRoles().then((roles) => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].nome === "admin") {
+          next();
+          return;
+        }
+      }
+    });
+  });
+
+  if(req.userId != req.params.id){
+    return res.status(401).send({
+      message: "Unauthorized!",
+    });
+  }
+
+  next();
+};
+
 isModerator = (req, res, next) => {
   Usuario.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
+        if (roles[i].nome === "moderator") {
           next();
           return;
         }
@@ -54,11 +76,11 @@ isModeratorOrAdmin = (req, res, next) => {
   Usuario.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
+        if (roles[i].nome === "moderator") {
           next();
           return;
         }
-        if (roles[i].name === "admin") {
+        if (roles[i].nome === "admin") {
           next();
           return;
         }
@@ -74,5 +96,6 @@ const authJwt = {
   isAdmin: isAdmin,
   isModerator: isModerator,
   isModeratorOrAdmin: isModeratorOrAdmin,
+  isCurrentUserOrAdmin: isCurrentUserOrAdmin,
 };
 module.exports = authJwt;
