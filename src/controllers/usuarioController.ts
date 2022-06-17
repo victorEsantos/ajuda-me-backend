@@ -29,7 +29,8 @@ const getById = async (req: Request, res: Response) => {
             model: Endereco,
             attributes: ['cidade', 'rua', 'numero', 'estado', 'cep']
 
-        }]
+        }],
+        attributes: {exclude: ['senha']},
     })
 
     res.json(usuario)
@@ -123,6 +124,10 @@ const put = async (req: Request, res: Response) => {
 
     const usuario = req.body;
     const id = req.params.id;
+
+    if(usuario.senha){
+      usuario.senha = bcrypt.hashSync(usuario.senha, 8)
+    }
 
     try {
         await Usuario.update(usuario, {
