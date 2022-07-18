@@ -13,6 +13,6 @@ router.post(
 );
 router.put("/:id",[authJwt.verifyToken, authJwt.isCurrentUserOrAdmin], usuarioController.put);
 
-router.post("/login", usuarioController.signin);
+router.post("/login",[] ,usuarioController.signin);
 
 export default router;

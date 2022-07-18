@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       genero: {
-        type: Sequelize.ENUM("MASCULINO", "FEMININO", "TRANS", "OUTRO")
+        type: Sequelize.ENUM("PREFIRO_NAO_DIZER", "MASCULINO", "FEMININO", "TRANS", "OUTRO")
       },
       corRaca: {
         type: Sequelize.ENUM("AMARELA", "BRANCA", "INDIGENA", "PARDA", "PRETA")
@@ -55,6 +55,9 @@ module.exports = {
       },
       crnm: {
         type: Sequelize.STRING
+      },
+      crnmVencimento: {
+        type: Sequelize.DATE
       },
       protocoloSolicitacaoRefugio: {
         type: Sequelize.STRING

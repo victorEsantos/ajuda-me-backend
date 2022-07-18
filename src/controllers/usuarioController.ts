@@ -4,10 +4,7 @@ var bcrypt = require("bcryptjs");
 
 const config = require("../../config/auth.config");
 const Usuario = require("../../models").Usuario
-const Role = require("../../models").Role
 const Endereco = require("../../models").Endereco
-const db = require("../../models");
-const Op = db.Sequelize.Op;
 
 const get = async (req: Request, res: Response) => {
 
@@ -76,6 +73,7 @@ const signin = async (req: Request, res: Response) => {
           for (let i = 0; i < roles.length; i++) {
             authorities.push("ROLE_" + roles[i].nome.toUpperCase());
           }
+
           res.status(200).send({
             id: user.id,
             username: user.username,
@@ -130,6 +128,8 @@ const put = async (req: Request, res: Response) => {
     }
 
     try {
+        console.log("atualizarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+        console.log(usuario)
         await Usuario.update(usuario, {
             where: {
                 id: id
